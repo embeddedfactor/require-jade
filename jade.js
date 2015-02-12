@@ -4132,7 +4132,11 @@ define({
     write: function (pluginName, name, write) {
         if (name in buildMap) {
             var text = buildMap[name];
-            write("define('"+pluginName+"!"+name+"', ['jade'], function(jade){ return " + text + "});\n");
+            write("define('"+pluginName+"!"+name+"', ['jade'], function(jade){ " +
+                    "if(!(typeof jade.attrs === 'function')){\n" +
+                    " jade = jade.get().runtime;\n" + 
+                    "};\n" +
+                    "return " + text + "});\n");
         }
     },
     //>>excludeEnd('excludeJade')
